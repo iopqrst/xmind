@@ -1,0 +1,73 @@
+﻿<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<script type="text/javascript">
+		window.onload = function(){
+			var oDiv = document.getElementById('div1');
+			
+			var i = 0;
+			
+			function upFn1() {
+				if(i == 0) return;
+				i--;
+				
+				document.title = i;
+			}
+			
+			function downFn1() {
+				i++;
+				
+				document.title = i;
+			}
+			
+			/**
+			 * @param obj 元素对象
+			 * @param upFn 向上事件
+			 * @param downFn 向下事件
+			 */
+			function addMouseWhell(obj, upFn, downFn) {
+				if(obj.addEventListener) {
+					obj.addEventListener('DOMMouseScroll', fn, false);
+				}
+				
+				obj.onmousewheel = fn;
+				
+				function fn(ev) {
+					var ev = ev || window.event;
+					
+					var b = true;
+					if (ev.wheelDelta) {
+						b = ev.wheelDelta > 0 ? true : false;
+					} else {
+						b = ev.detail < 0 ? true : false;
+					}
+					
+					if ( b ) {
+						upFn(); //上
+					} else {
+						downFn(); //下
+					}
+
+					if (ev.preventDefault) {
+						ev.preventDefault();
+					}
+			
+					return false;
+
+				}
+			}
+			
+			
+			addMouseWhell(document, upFn1, downFn1);
+			
+		};
+	</script>
+</head>
+<body>
+	<div style="height:2000px">
+		
+	</div>
+</body>
+</html>

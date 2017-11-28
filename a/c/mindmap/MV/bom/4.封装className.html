@@ -1,0 +1,53 @@
+﻿<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	
+	<script type="text/javascript">
+		window.onload = function(){
+			
+			function getElementsByClassName(parent, tagName, className) {
+				
+				var aObj = parent.getElementsByTagName(tagName);
+				
+				var arr =  [];
+				
+				for(var i = 0 ; i< aObj.length; i++) {
+					
+					var aClasses = aObj[i].className.split(' ');
+					
+					for(var j = 0; j < aClasses.length; j++) {
+						if(className === aClasses[j]) {
+							arr.push(aObj[i]);
+							break;
+						}
+					}
+					
+				}
+				
+				return arr;
+				
+			}
+			
+			var oDiv = document.getElementById('div1');
+			
+			var arr = getElementsByClassName(document, 'p', 'box');
+			
+			for(var i = 0; i < arr.length; i++) {
+				arr[i].style.background='red';
+			};
+			
+		};
+	</script>
+</head>
+<body>
+	<div id="div1">
+		<p class="box1 box">1</p>
+		<p class="box1">2</p>
+		<p class="box1 box2">3</p>
+		<p class="box box2">4</p>
+	</div>
+	<p class="box">5</p>
+</body>
+</html>

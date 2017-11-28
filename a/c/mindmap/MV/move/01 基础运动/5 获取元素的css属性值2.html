@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>无标题文档</title>
+<style>
+#myspan { opacity: 0.3; monkey: houzhiqing; filter: alpha(opacity=30); margin-left: 200px;}
+</style>
+<script>
+window.onload = function() {
+	
+	var oSpan = document.getElementById('myspan');
+
+	function css(obj, attr) {
+		if (obj.currentStyle) {
+			return obj.currentStyle[attr]; //非标准ie
+		} else {
+			return getComputedStyle(obj, false)[attr]; //标准浏览器
+		}
+	}
+	
+	// chrome下输入0.30000001192092896 （解决办法--四舍五入）
+	// firefox --> 0.3
+	// ie7/ie8/ie9... --> 0.3
+	//console.info(css(oSpan, 'opacity'));
+	
+	//ie 7/8/9下 --> houzhiqing
+	// firefox / chrome 下为undefined
+	
+	alert(css(oSpan,'monkey'));
+	
+	//可以通过currentStyle在标准非标准浏览器下的差别获取opacity的值
+}
+</script>
+</head>
+
+<body>
+    <span id='myspan'> text </span>
+</body>
+</html>

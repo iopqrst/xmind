@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>1.多图片展开、收缩-1</title>
+
+		<style type="text/css">
+			#box1,#box2,#box3 {
+				width: 330px;
+				height: 330px;
+				border: 1px solid green;
+				position: absolute;
+				left:0px;
+				top:100px;
+			}
+			
+			#box2 {
+				left: 350px;
+			}
+			
+			#box3 {
+				left: 700px;
+			}
+			
+			#box1 div,#box2 div,#box3 div {
+				width: 100px;
+				height: 100px;
+				background: #ff0000;
+				position: absolute;
+				left: 0;
+				top: 0;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<div id="box1">
+			<div>1</div>
+			<div>1</div>
+			<div>1</div>
+			<div>1</div>
+			<div>1</div>
+			<div>1</div>
+			<div>1</div>
+			<div>1</div>
+			<div>1</div>
+		</div>
+		
+		<div id="box2">
+			<div>2</div>
+			<div>2</div>
+			<div>2</div>
+			<div>2</div>
+			<div>2</div>
+			<div>2</div>
+			<div>2</div>
+			<div>2</div>
+			<div>2</div>
+		</div>
+		
+		<div id="box3">
+			<div>3</div>
+			<div>3</div>
+			<div>3</div>
+			<div>3</div>
+			<div>3</div>
+			<div>3</div>
+			<div>3</div>
+			<div>3</div>
+			<div>3</div>
+		</div>
+
+		<script type="text/javascript" src="js/move.js"></script>
+		<script type="text/javascript">
+			var oBox1 = document.getElementById("box1");
+			var aDivs = oBox1.getElementsByTagName("div");
+			
+			for (var i = 0, len = aDivs.length; i < len; i++) {
+				aDivs[i].style.left = 5 + 110 * (i % 3) + 'px';
+				aDivs[i].style.top = 5 + 110 * (Math.floor(i / 3)) + 'px';
+			}
+			var maxZindex = 10;
+			
+			for (var i = 0, len = aDivs.length; i < len; i++) {
+				aDivs[i].index = i;
+				aDivs[i].onmouseover = function() {
+					this.style.background = 'green';
+					this.style.zIndex = maxZindex++;
+					
+					var iCurrentLeft = parseInt(aDivs[this.index].style.left, 10);
+					var iCurrentTop = parseInt(aDivs[this.index].style.top, 10);
+					
+					startMove(this, {
+						left: (iCurrentLeft - 50),
+						top: (iCurrentTop - 50),
+						width: 200,
+						height: 200
+					});
+				}
+				aDivs[i].onmouseout = function() {
+					aDivs[this.index].style.background = 'red';
+					
+					startMove(this, {
+						left: 5 + 110 * (this.index % 3),
+						top: 5 + 110 * (Math.floor(this.index / 3)),
+						width: 100,
+						height: 100
+					});
+				}
+			}
+			
+			
+			// 第二种方式
+			var oBox2 = document.getElementById("box2");
+			var aDivs2 = oBox2.getElementsByTagName("div");
+			
+			for (var i = 0, len = aDivs2.length; i < len; i++) {
+				aDivs2[i].style.left = 5 + 110 * (i % 3) + 'px';
+				aDivs2[i].style.top = 5 + 110 * (Math.floor(i / 3)) + 'px';
+			}
+			
+			for (var i = 0, len = aDivs2.length; i < len; i++) {
+				(function(num){
+					aDivs2[num].onmouseover = function(){
+						this.style.background = 'green';
+						this.style.zIndex = maxZindex++;
+						
+						var iCurrentLeft = parseInt(this.style.left, 10);
+						var iCurrentTop = parseInt(this.style.top, 10);
+					
+						startMove(this, {
+							left: (iCurrentLeft - 50),
+							top: (iCurrentTop - 50),
+							width: 200,
+							height: 200
+						});
+					};
+				})(i);
+				
+				(function(num){
+					aDivs2[num].onmouseout = function(){
+						this.style.background = 'red';
+					
+						startMove(this, {
+							left: 5 + 110 * (num % 3),
+							top: 5 + 110 * (Math.floor(num / 3)),
+							width: 100,
+							height: 100
+						});
+					};
+				})(i);
+			}
+			
+			// 第3种方式
+			var oBox3 = document.getElementById("box3");
+			var aDivs3 = oBox3.getElementsByTagName("div");
+			
+			for (var i = 0, len = aDivs3.length; i < len; i++) {
+				aDivs3[i].style.left = 5 + 110 * (i % 3) + 'px';
+				aDivs3[i].style.top = 5 + 110 * (Math.floor(i / 3)) + 'px';
+			}
+			for (var i = 0, len = aDivs3.length; i < len; i++) {
+				aDivs3[i].onmouseover = function(num){
+					return function(){
+						this.style.background = 'green';
+						this.style.zIndex = maxZindex++;
+						
+						var iCurrentLeft = parseInt(this.style.left, 10);
+						var iCurrentTop = parseInt(this.style.top, 10);
+					
+						startMove(this, {
+							left: (iCurrentLeft - 50),
+							top: (iCurrentTop - 50),
+							width: 200,
+							height: 200
+						});
+					};
+				}(i);
+				
+				aDivs3[i].onmouseout = function(num){
+					return function(){
+						this.style.background = 'red';
+					
+						startMove(this, {
+							left: 5 + 110 * (num % 3),
+							top: 5 + 110 * (Math.floor(num / 3)),
+							width: 100,
+							height: 100
+						});
+					};
+				}(i);
+			}
+		</script>
+	</body>
+
+</html>
